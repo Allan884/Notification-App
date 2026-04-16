@@ -1,0 +1,12 @@
+<div *ngIf="notification()?.status === 'NOTIFICATION'">
+  <h2>{{ notification()?.title }}</h2>
+  <p>{{ notification()?.content }}</p>
+</div>
+
+<div *ngIf="notification()?.status === 'OK'">
+  <p>System is running normally</p>
+</div>
+
+<div *ngIf="!notification()">
+  <p>Loading...</p>
+</div>

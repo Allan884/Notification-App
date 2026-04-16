@@ -1,4 +1,4 @@
-package allan_saariste.DynamicNotificationModule.Entity;
+package allan_saariste.dynamic_notification.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
