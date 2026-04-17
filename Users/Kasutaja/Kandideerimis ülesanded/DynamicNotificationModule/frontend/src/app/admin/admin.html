@@ -1,0 +1,37 @@
+<h2>Admin Panel</h2>
+
+<form (ngSubmit)="save()">
+  <input [(ngModel)]="notification.title" name="title" placeholder="Title" required />
+  <br />
+
+  <textarea [(ngModel)]="notification.content" name="content" placeholder="Content"></textarea>
+  <br />
+
+  <label>
+    Active:
+    <input type="checkbox" [(ngModel)]="notification.active" name="active" />
+  </label>
+
+  <br />
+  <button type="submit">Save</button>
+  <button type="button" (click)="resetForm()">Clear</button>
+</form>
+
+<hr />
+
+<h3>All Notifications</h3>
+
+<div *ngFor="let n of notifications"
+     style="border:1px solid #ccc; margin:10px; padding:10px;">
+
+  <h4>{{ n.title }}</h4>
+  <p>{{ n.content }}</p>
+
+  <p *ngIf="n.active" style="color:green"><b>ACTIVE</b></p>
+
+  
+  <button (click)="activate(n.id!)">Activate</button>
+
+  <button (click)="edit(n)">Edit</button>
+  <button (click)="delete(n.id!)">Delete</button>
+</div>

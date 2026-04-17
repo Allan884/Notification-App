@@ -1,12 +1,29 @@
+<h1>Notification App</h1>
+
+<nav>
+  <a routerLink="/">Home</a>
+  <a routerLink="/admin">Admin</a>
+</nav>
+
+<hr />
+
 <div *ngIf="notification()?.status === 'NOTIFICATION'">
   <h2>{{ notification()?.title }}</h2>
   <p>{{ notification()?.content }}</p>
 </div>
 
+<p><strong>Time:</strong> {{ notification()?.timestamp | date:'medium' }}</p>
+<p><strong>Support:</strong> {{ notification()?.support }}</p>
+
 <div *ngIf="notification()?.status === 'OK'">
   <p>System is running normally</p>
+  <p>{{ notification()?.timestamp | date:'medium' }}</p>
 </div>
 
 <div *ngIf="!notification()">
   <p>Loading...</p>
 </div>
+
+<hr />
+
+<router-outlet></router-outlet>

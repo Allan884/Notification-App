@@ -1,11 +1,12 @@
 import { Component, signal, inject } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { NgIf } from '@angular/common';
 import { NotificationService } from './notification.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NgIf],
+  standalone: true,
+  imports: [CommonModule, DatePipe, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -16,7 +17,6 @@ export class App {
 
   constructor() {
     this.service.getNotification().subscribe(data => {
-      console.log("Backend response:", data);
       this.notification.set(data);
     });
   }

@@ -10,22 +10,30 @@ public class Notification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     private String title;
     private String content;
-    private boolean isActive = false;
+    private Boolean active = false;
 
     public Notification() {}
 
     
-    public Notification(String title, String content, boolean isActive) {
+    public Notification(String title, String content, Boolean active) {
         this.title = title;
         this.content = content;
-        this.isActive = isActive;
+        this.active = active;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public Long getId() {
+    return id;
+    }
+
+    public void setId(Long id) {
+    this.id = id;
     }
 
     public void setTitle(String title) {
@@ -40,12 +48,12 @@ public class Notification {
         this.content = content;
     } 
 
-    public boolean isActive() {
-        return isActive;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setActive(boolean active) {
-        this.isActive = active;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
 
