@@ -21,9 +21,13 @@ export class AdminService {
   getAll(): Observable<Notification[]> {
     return this.http.get<Notification[]>(this.baseUrl);
   }
-
-  save(notification: Notification): Observable<Notification> {
+  
+  create(notification: Notification): Observable<Notification> {
     return this.http.post<Notification>(this.baseUrl, notification);
+  }
+
+  update(id: number, notification: Notification): Observable<Notification> {
+    return this.http.put<Notification>(`${this.baseUrl}/${id}`, notification);
   }
 
   delete(id: number): Observable<void> {

@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import allan_saariste.dynamic_notification.entity.Notification;
+import jakarta.transaction.Transactional;
 
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long>  {
 
     @Modifying
+    @Transactional
     @Query("UPDATE Notification n SET n.active = false")
     void deactivateAll();
 

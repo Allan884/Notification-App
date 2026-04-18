@@ -12,7 +12,6 @@ export class NotificationService {
   constructor(private http: HttpClient) {}
 
   getNotification(): Observable<any> {
-    console.log("Calling backend...")
     return this.http.get(this.apiUrl);
   }
 }

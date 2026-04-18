@@ -1,37 +1,78 @@
 <h2>Admin Panel</h2>
 
-<form (ngSubmit)="save()">
-  <input [(ngModel)]="notification.title" name="title" placeholder="Title" required />
-  <br />
+<form #form="ngForm" (ngSubmit)="createOrUpdate(); form.resetForm()">
 
-  <textarea [(ngModel)]="notification.content" name="content" placeholder="Content"></textarea>
-  <br />
-
-  <label>
-    Active:
-    <input type="checkbox" [(ngModel)]="notification.active" name="active" />
-  </label>
+  <input 
+    [(ngModel)]="notification.title" 
+    name="title" 
+    placeholder="Title" 
+    required 
+  />
 
   <br />
-  <button type="submit">Save</button>
-  <button type="button" (click)="resetForm()">Clear</button>
+
+  <textarea 
+    [(ngModel)]="notification.content" 
+    name="content" 
+    placeholder="Content"
+    required
+  ></textarea>
+
+  <br />
+
+  <button type="submit">
+    {{ notification.id ? 'Update' : 'Create' }}
+  </button>
+
+  <button type="button" (click)="resetForm()">
+    Clear
+  </button>
+
 </form>
 
 <hr />
 
-<h3>All Notifications</h3>
+<h3>Available Notifications</h3>
 
-<div *ngFor="let n of notifications"
-     style="border:1px solid #ccc; margin:10px; padding:10px;">
+<table border="1" width="100%" cellpadding="8" cellspacing="0">
 
-  <h4>{{ n.title }}</h4>
-  <p>{{ n.content }}</p>
+ 
+  <thead>
+    <tr style="background:#f2f2f2;">
+      <th>ID</th>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
 
-  <p *ngIf="n.active" style="color:green"><b>ACTIVE</b></p>
+ 
+  <tbody>
+    <tr *ngFor="let n of notifications">
 
-  
-  <button (click)="activate(n.id!)">Activate</button>
+      <td>{{ n.id }}</td>
+      <td>{{ n.title }}</td>
+      <td>{{ n.content }}</td>
 
-  <button (click)="edit(n)">Edit</button>
-  <button (click)="delete(n.id!)">Delete</button>
-</div>
+      <td>
+        <span [style.color]="n.active ? 'green' : 'gray'">
+          {{ n.active ? 'ACTIVE' : 'INACTIVE' }}
+        </span>
+      </td>
+
+      <td>
+        <button (click)="edit(n)">Edit</button>
+        <button (click)="delete(n.id!)">Delete</button>
+
+        <button 
+          (click)="setActive(n.id!)"
+          [disabled]="n.active">
+          Activate
+        </button>
+      </td>
+
+    </tr>
+  </tbody>
+
+</table>

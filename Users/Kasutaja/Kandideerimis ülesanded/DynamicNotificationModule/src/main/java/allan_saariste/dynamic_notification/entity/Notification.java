@@ -17,7 +17,6 @@ public class Notification {
 
     public Notification() {}
 
-    
     public Notification(String title, String content, Boolean active) {
         this.title = title;
         this.content = content;

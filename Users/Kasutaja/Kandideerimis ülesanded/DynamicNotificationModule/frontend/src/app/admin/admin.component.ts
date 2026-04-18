@@ -20,6 +20,8 @@ export class AdminComponent implements OnInit {
     active: false
   };
 
+  errorMessage: string = '';
+
   constructor(private adminService: AdminService) {}
 
   ngOnInit(): void {
@@ -27,14 +29,42 @@ export class AdminComponent implements OnInit {
   }
 
   load() {
-    this.adminService.getAll().subscribe(data => {
+    this.adminService.getAll().subscribe({next: (data) => {
       this.notifications = data;
+    },
+    error: (err) => {
+      console.error('LOAD FAILED', err);
+    }
     });
   }
 
-  save() {
-    this.adminService.save(this.notification).subscribe(() => {
-      this.resetForm();
+  createOrUpdate() {
+
+    if (!this.notification.title || this.notification.title.trim() === '') {
+      this.errorMessage = 'Title is required';
+      return;
+    }
+
+    const request = this.notification.id
+      ? this.adminService.update(this.notification.id, this.notification)
+      : this.adminService.create(this.notification);
+
+    request.subscribe({
+      next: (result) => {
+        this.afterSave(result);
+      },
+      error: err => {
+        console.error(err);
+        this.errorMessage = err.error?.message || 'Error occurred';
+      }
+    });
+  }
+
+  afterSave(saved?: any) {
+    this.errorMessage = '';
+    this.resetForm();
+
+    setTimeout(() => {
       this.load();
     });
   }
@@ -44,22 +74,19 @@ export class AdminComponent implements OnInit {
   }
 
   delete(id: number) {
-    this.adminService.delete(id).subscribe(() => {
-      this.load();
-    });
+    this.adminService.delete(id).subscribe(() => this.load());
   }
 
-  activate(id: number) {
-    this.adminService.activate(id).subscribe(() => {
-      this.load();
-    });
+  setActive(id: number) {
+    this.adminService.activate(id).subscribe(() => this.load());
   }
 
   resetForm() {
     this.notification = {
       title: '',
       content: '',
-      active: false
+      active: false,
+      id: undefined
     };
   }
 }

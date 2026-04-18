@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,9 +29,14 @@ public class AdminNotificationController {
         return service.getAll();
     }
 
-    @PostMapping
-    public Notification save(@RequestBody Notification notification) {
-        return service.save(notification);
+     @PostMapping
+    public Notification create(@RequestBody Notification n) {
+        return service.save(n);
+    }
+
+    @PutMapping("/{id}")
+    public Notification update(@PathVariable Long id, @RequestBody Notification notification) {
+        return service.update(id, notification);
     }
 
     @DeleteMapping("/{id}")
@@ -40,7 +46,7 @@ public class AdminNotificationController {
 
     @PostMapping("/{id}/activate")
     public void activate(@PathVariable Long id) {
-        service.activate(id);
+        service.setActive(id);
     }
 
     

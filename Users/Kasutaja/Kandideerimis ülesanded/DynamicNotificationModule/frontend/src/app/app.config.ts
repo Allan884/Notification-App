@@ -22,8 +22,6 @@ export const appConfig: ApplicationConfig = {
                 Authorization: `Basic ${credentials}`
               }
             }));
-
-            return next(req);
           }
 
           return next(req);

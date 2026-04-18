@@ -26,9 +26,33 @@ public class NotificationService {
         return notificationRepository.findById(id).orElseThrow();
     }
 
-
     public Notification save(Notification notification) {
+        if (notification.getTitle() == null
+            || notification.getTitle().isBlank()
+            || notification.getContent() == null
+            || notification.getContent().isBlank()) {
+                throw new RuntimeException("Title and content is required");
+            }
+
         return notificationRepository.save(notification);
+    }
+    
+    public Notification update(Long id, Notification updated) {
+
+        if (updated.getTitle() == null
+            || updated.getTitle().isBlank()
+            || updated.getContent() == null
+            || updated.getContent().isBlank()) {
+                throw new RuntimeException("Title and content is required");
+            }
+
+        Notification existing = notificationRepository.findById(id).orElseThrow();
+
+        existing.setTitle(updated.getTitle());
+        existing.setContent(updated.getContent());
+
+        return notificationRepository.save(existing);
+
     }
 
     public void delete(Long id) {
@@ -36,14 +60,12 @@ public class NotificationService {
     }
 
     @Transactional
-    public void activate(Long id) {
+    public void setActive(Long id) {
         notificationRepository.deactivateAll();
 
-        Notification n = notificationRepository.findById(id)
-            .orElseThrow();
-            
-        n.setActive(true);
-        notificationRepository.save(n);
+        Notification selected = notificationRepository.findById(id).orElseThrow();
+        selected.setActive(true);
+        notificationRepository.save(selected);
         
     }
 
