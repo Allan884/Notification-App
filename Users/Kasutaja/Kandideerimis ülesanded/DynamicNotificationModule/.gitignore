@@ -35,3 +35,14 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# Angular
+node_modules/
+dist/
+
+# H2 database
+*.mv.db
+*.trace.db
+
+#logs
+*.log

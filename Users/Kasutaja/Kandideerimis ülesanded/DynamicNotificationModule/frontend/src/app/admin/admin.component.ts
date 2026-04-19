@@ -34,7 +34,8 @@ export class AdminComponent implements OnInit {
     },
     error: (err) => {
       console.error('LOAD FAILED', err);
-    }
+      this.errorMessage = 'Unauthorized or server error';
+      }
     });
   }
 

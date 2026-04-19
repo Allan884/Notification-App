@@ -1,59 +1,122 @@
-# Frontend
+Dynamic Notification Module
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+This is a simple full-stack application built as part of the TEHIK Engineering Challenge.
+The system allows administrators to manage system-wide notifications dynamically, while end users can view the current system status in real time.
 
-## Development server
+🧩 Overview
 
-To start a local development server, run:
+The application consists of:
 
-```bash
-ng serve
-```
+    Backend: Java 25 + Spring Boot 4
+    Frontend: Angular
+    Database: H2 (in-memory)
+    Authentication: Basic Authentication for admin endpoints
+    Public API: Open for all users (no login required)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+🎯 Business Requirements
 
-## Code scaffolding
+The system implements the following features:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+    1. Notification Management (Admin)
+    Admin can create a notification with:
+    Title
+    Content
+    Active / inactive state
+    Only one notification is considered active at a time.
+    Admin can:
+    Create
+    Update
+    Delete
+    Activate / deactivate notifications
 
-```bash
-ng generate component component-name
-```
+    2. Public API (User View)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+    The public endpoint returns:
 
-```bash
-ng generate --help
-```
+    Notification title and content (if active)
+    Current server timestamp
+    Support contact information (fixed in backend)
 
-## Building
+    If no active notification exists:
 
-To build the project run:
+    The API returns a status indicating the system is operational
 
-```bash
-ng build
-```
+    3. Authentication & Security
+    /api/admin/** → protected with Basic Authentication
+    /api/notification → public access (no login required)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+    Default admin credentials:
 
-## Running unit tests
+    username: admin
+    password: admin123
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+    4. Frontend Views
+    The Angular application has two views:
 
-```bash
-ng test
-```
+    Admin View (/admin)
 
-## Running end-to-end tests
+    Protected with Basic Auth
+    Allows managing notifications
+    Calls secured backend endpoints
 
-For end-to-end (e2e) testing, run:
+    User View (/)
 
-```bash
-ng e2e
-```
+    Public page
+    Displays:
+    Active notification OR
+    “System operational” message
+    Shows formatted server timestamp
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+🧪 Example API Response
 
-## Additional Resources
+    Active notification:
+    {
+    "title": "MAINTENANCE",
+    "content": "18:00-22:00",
+    "timestamp": "2026-04-19T19:52:29",
+    "supportContact": "support@tehik.ee",
+    "active": true
+    }
+    No active notification:
+    {
+    "status": "OK",
+    "message": "System is operational",
+    "timestamp": "2026-04-19T19:52:29",
+    "supportContact": "support@tehik.ee"
+    }
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Simple step-by-step usage:
+
+    1. Start backend:
+    - Open terminal in backend folder
+    - Run: ./gradlew bootRun
+    - Backend runs at http://localhost:8080
+
+    2. Start frontend:
+    - Open terminal in frontend folder
+    - Run: npm install
+    - Run: ng serve
+    - Open http://localhost:4200 in browser
+
+    3. Use application:
+    - User view: open http://localhost:4200
+    - Admin view: open http://localhost:4200/admin
+
+    4. Admin login:
+    - username: admin
+    - password: admin123
+
+
+🛠 Tech Notes
+    Angular uses HttpClient for API communication
+    Backend uses Spring Security with Basic Auth
+    CORS is enabled for localhost development
+    Data is stored in H2 in-memory database
+
+📌 Notes
+    This project is intentionally simple and focused on business logic clarity
+    UI design is minimal and not a focus of the solution
+    The goal is maintainability and clean separation between admin and public views
+
+👨‍💻 Author
+    Allan Saariste with help of ChatGPT.

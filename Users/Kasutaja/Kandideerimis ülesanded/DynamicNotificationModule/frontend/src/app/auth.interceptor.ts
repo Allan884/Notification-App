@@ -1,21 +1,16 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpInterceptorFn } from '@angular/common/http';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const username = 'admin';
+  const password = 'admin123';
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  const authHeader = 'Basic ' + btoa(`${username}:${password}`);
 
-    // ajutine
-    const username = 'admin';
-    const password = 'admin123';
+  const clonedRequest = req.clone({
+    setHeaders: {
+      Authorization: authHeader
+    }
+  });
 
-    const authReq = req.clone({
-      setHeaders: {
-        Authorization: 'Basic ' + btoa(`${username}:${password}`)
-      }
-    });
-
-    return next.handle(authReq);
-  }
-}
+  return next(clonedRequest);
+};
