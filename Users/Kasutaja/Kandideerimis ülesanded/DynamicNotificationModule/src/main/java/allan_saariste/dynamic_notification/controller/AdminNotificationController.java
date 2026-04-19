@@ -49,5 +49,10 @@ public class AdminNotificationController {
         service.setActive(id);
     }
 
+    @PostMapping("/{id}/deactivate")
+    public void deactivate(@PathVariable Long id) {
+    service.deactivate(id);
+}
+
     
 }

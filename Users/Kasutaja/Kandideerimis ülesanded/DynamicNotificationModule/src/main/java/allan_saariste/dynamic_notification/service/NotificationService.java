@@ -61,13 +61,20 @@ public class NotificationService {
 
     @Transactional
     public void setActive(Long id) {
-        notificationRepository.deactivateAll();
+    notificationRepository.deactivateAll();
 
-        Notification selected = notificationRepository.findById(id).orElseThrow();
-        selected.setActive(true);
-        notificationRepository.save(selected);
-        
-    }
+    Notification selected = notificationRepository.findById(id).orElseThrow();
+    selected.setActive(true);
+
+    notificationRepository.save(selected);
+}
+
+    @Transactional
+    public void deactivate(Long id) {
+    Notification n = notificationRepository.findById(id).orElseThrow();
+    n.setActive(false);
+    notificationRepository.save(n);
+}
 
 
     public Notification getActiveNotification() {

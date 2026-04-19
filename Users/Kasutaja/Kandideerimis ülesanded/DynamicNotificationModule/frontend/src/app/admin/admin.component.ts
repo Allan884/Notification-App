@@ -50,8 +50,10 @@ export class AdminComponent implements OnInit {
       : this.adminService.create(this.notification);
 
     request.subscribe({
-      next: (result) => {
-        this.afterSave(result);
+      next: () => {
+        this.errorMessage = '';
+        this.resetForm();
+        this.load();
       },
       error: err => {
         console.error(err);
@@ -60,14 +62,6 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  afterSave(saved?: any) {
-    this.errorMessage = '';
-    this.resetForm();
-
-    setTimeout(() => {
-      this.load();
-    });
-  }
 
   edit(n: Notification) {
     this.notification = { ...n };
@@ -80,6 +74,10 @@ export class AdminComponent implements OnInit {
   setActive(id: number) {
     this.adminService.activate(id).subscribe(() => this.load());
   }
+
+  deactivate(id: number) {
+  this.adminService.deactivate(id).subscribe(() => this.load());
+}
 
   resetForm() {
     this.notification = {

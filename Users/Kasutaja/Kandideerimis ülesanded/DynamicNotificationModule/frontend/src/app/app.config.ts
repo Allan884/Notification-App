@@ -1,32 +1,19 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { AuthInterceptor } from './auth.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
-    provideHttpClient(
-      withInterceptors([
-        (req, next) => {
+    provideHttpClient(withInterceptorsFromDi()),
 
-          const isAdmin = req.url.includes('/api/admin');
-
-          if (isAdmin) {
-            const credentials = btoa('admin:admin123');
-
-            return next(req.clone({
-              setHeaders: {
-                Authorization: `Basic ${credentials}`
-              }
-            }));
-          }
-
-          return next(req);
-        }
-      ])
-    )
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ]
 };

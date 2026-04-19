@@ -1,6 +1,6 @@
 <h2>Admin Panel</h2>
 
-<form #form="ngForm" (ngSubmit)="createOrUpdate(); form.resetForm()">
+<form #form="ngForm" (ngSubmit)="createOrUpdate()">
 
   <input 
     [(ngModel)]="notification.title" 
@@ -70,6 +70,12 @@
           [disabled]="n.active">
           Activate
         </button>
+
+        <button 
+        (click)="deactivate(n.id!)"
+        [disabled]="!n.active">
+          Deactivate
+</button>
       </td>
 
     </tr>

@@ -37,4 +37,9 @@ export class AdminService {
   activate(id: number): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/${id}/activate`, {});
   }
+
+  deactivate(id: number) {
+  return this.http.post<void>(`${this.baseUrl}/${id}/deactivate`, {});
+  }
+
 }
